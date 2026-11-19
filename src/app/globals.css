@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -153,3 +153,18 @@
     12px 12px 0px 0px var(--pillar-color);
 }
 
+/* Keep Mapbox native popups and controls crisp above z-17 visual overlays */
+.mapboxgl-popup,
+.mapboxgl-control-container {
+  z-index: 20;
+}
+
+
+
+/* Flush Mapbox hover popup for Bus Stop Map (eliminates double-box halo) */
+.bus-stop-hover-popup .mapboxgl-popup-content {
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}

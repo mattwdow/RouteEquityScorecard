@@ -136,7 +136,7 @@ export const SpotlightSearch: React.FC<SpotlightSearchProps> = ({ routes }) => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 z-40 bg-white hover:bg-slate-50 border border-slate-200 text-slate-500 hover:text-slate-800 rounded-full px-4 py-2.5 shadow-lg flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider transition-all duration-150 scale-95 hover:scale-100"
+        className="fixed top-16 right-4 z-40 bg-white/90 hover:bg-white backdrop-blur-md border border-slate-200 text-slate-600 hover:text-slate-900 rounded-lg px-3 py-2 shadow-sm flex items-center gap-2 text-xs font-bold transition-all duration-150"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="8"></circle>

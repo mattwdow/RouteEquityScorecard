@@ -4,6 +4,12 @@
 Refining analytical modeling, service impact simulations, and advanced research reporting.
 
 ## Sprint Backlog
+### Phase 40: Demographic Walkshed Sensitivity & Variable Catchment Analysis
+1. **Demographic Walkshed Modeling (15 Minutes. For Whom?)** [HIGH]
+   - Investigate how walking speeds, physical mobility, age, and encumbrance (elderly riders, children, pregnant passengers, riders carrying luggage or strollers) contract or expand effective stop catchments.
+   - Challenge the industry-standard static 400m radius: evaluate alternative catchments (e.g., 200m-300m for reduced mobility vs 600m-800m for rapid adult transit walkers) and calculate equity shifts across Dissemination Areas.
+   - Reference: Milan Janosov & Francesco Procacci accessibility study on differential isochrones across demographics for identical time windows.
+
 ### Phase 27: Bus Stop Scrollytelling Workspace
 1. **Bus Stop Scrollytelling Page ("Explain this to me! — Bus Stop Analysis")** [HIGH]
    - Develop an interactive Mapbox scrollytelling walkthrough for Bus Stop Analysis explaining CIMD dimensions, 400m walk catchments, quintile grading (A–E), 3 real-world case studies (Abbottsfield, Oliver, Windermere), and methodological limitations. See [busstop_scrollytelling.md](file:///c:/Antigravity%20Projects%20in%20C/Route%20Equity%20Scorecard/docs/busstop_scrollytelling.md).
@@ -25,6 +31,14 @@ Refining analytical modeling, service impact simulations, and advanced research 
 ---
 
 ## Review & Completed Work
+- **Global Skill Extraction: `/reactive-policy-engine` (Phase 42)**:
+  - Authored and deployed [SKILL.md](file:///C:/Users/matdow/.gemini/config/skills/reactive-policy-engine/SKILL.md) to the global Antigravity skill registry (`C:\Users\matdow\.gemini\config\skills\reactive-policy-engine\`) and mirrored it to the workspace (`.agents/skills/reactive-policy-engine/`) per `/skill-crafter` double-deployment standards.
+  - Codified 6 core rules: immutable base vs. derived reactive scoring (`useReactiveScoring`), strict Python $\leftrightarrow$ TypeScript mathematical parity, Hamilton (Largest Remainder) integer-step zero-sum apportionment, semantic color isolation on input sliders (`#64748B` slate tracks), SWC-safe TypeScript syntax, and transparent stability nomenclature.
+  - Packaged 4 reference modules: [useReactiveScoring.ts](file:///C:/Users/matdow/.gemini/config/skills/reactive-policy-engine/references/useReactiveScoring.ts), [useZeroSumStore.ts](file:///C:/Users/matdow/.gemini/config/skills/reactive-policy-engine/references/useZeroSumStore.ts), [useDuckDBWasm.ts](file:///C:/Users/matdow/.gemini/config/skills/reactive-policy-engine/references/useDuckDBWasm.ts), and [monte_carlo_simplex_engine.py](file:///C:/Users/matdow/.gemini/config/skills/reactive-policy-engine/references/monte_carlo_simplex_engine.py).
+- **Global Skill Extraction: `/spatial-equity-pipeline` (Phase 41)**:
+  - Authored and deployed [SKILL.md](file:///C:/Users/matdow/.gemini/config/skills/spatial-equity-pipeline/SKILL.md) to the global Antigravity skill registry (`C:\Users\matdow\.gemini\config\skills\spatial-equity-pipeline\`) and mirrored it to the workspace (`.agents/skills/spatial-equity-pipeline/`) per `/skill-crafter` double-deployment standards.
+  - Codified 6 non-negotiable operating rules: non-destructive shadow GTFS audits, mandatory metric CRS projections (`EPSG:32612` / `EPSG:3400`), $\ge 20\%$ max-frequency shape selection (eliminating garage short-turn stubs), municipal vs. regional statistical isolation, Shapely morphological closing for contiguous walkshed envelopes, and CP1252 Windows console safety.
+  - Packaged reusable reference modules [walkshed_morphology.py](file:///C:/Users/matdow/.gemini/config/skills/spatial-equity-pipeline/references/walkshed_morphology.py) and [gtfs_shadow_comparator.py](file:///C:/Users/matdow/.gemini/config/skills/spatial-equity-pipeline/references/gtfs_shadow_comparator.py) covering morphological polygon compression, zero-dependency XML `.xlsx` CIMD parsing, and Phase A Python $\leftrightarrow$ TypeScript mathematical parity.
 - **Interactive Map Stability Class Layer Toggle (Phase 39)**:
   - Enhanced [BusStopGradeLegend.tsx](file:///c:/Antigravity%20Projects%20in%20C/Route%20Equity%20Scorecard/src/components/widgets/BusStopGradeLegend.tsx) with a tactile segmented mode toggle: `Scorecard Grade (A–E)` vs `Stability Class`.
   - Added filter pills and real-time stop counts for all four stability classifications: **Essential Equity** (822 stops, `#7C3AED` Purple), **High Swing** (4,045 stops, `#EF4444` Red), **Low Swing** (642 stops, `#F59E0B` Amber), and **Always Low Equity** (215 stops, `#EA580C` Orange), plus Regional (Slate).

@@ -7,6 +7,8 @@ import { RoutePoint } from '@/components/charts/EquityQuadrant';
 import { useRouteStore, MetricKey } from '@/store/routeStore';
 import { METRICS } from '@/components/charts/EquityMatrix';
 import { mapStabilityClass } from '@/utils/stability';
+import { MapVisualOverlays, MapEffectsToggle } from './MapVisualEffects';
+import { useUIStore } from '@/store/useUIStore';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2VsZG9tc21pdGgiLCJhIjoiY21wNGoya2o5MDNvbTJ1cHFjcmI4djRudCJ9' + '.55Khr0Cuwie_8YBv_QPfsA';
 
@@ -1011,6 +1013,7 @@ const MapInner = ({ systemPopServed, routes }: MapProps) => {
   }, [selectedRoute, routes, daGeoJson]);
 
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const dioramaContrast = useUIStore((s) => s.dioramaContrast);
 
   // Resize map when entering/exiting fullscreen
   useEffect(() => {
@@ -1019,6 +1022,17 @@ const MapInner = ({ systemPopServed, routes }: MapProps) => {
     }
   }, [isFullscreen]);
 
+  // Automatically resize Mapbox canvas whenever the container dimensions change
+  useEffect(() => {
+    const el = mapContainer.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => {
+      map.current?.resize();
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div 
       className={`transition-all duration-300 ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''}`}
@@ -1026,11 +1040,19 @@ const MapInner = ({ systemPopServed, routes }: MapProps) => {
     >
       <div 
         ref={mapContainer} 
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          ...(dioramaContrast ? { filter: 'contrast(1.15) saturate(1.22)' } : {}),
+        }} 
       />
+      <MapVisualOverlays />
       
       {/* Top Left: Clear Selections (Route and/or DA) */}
-      <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
+      <div className="absolute top-6 left-6 z-20 flex flex-col gap-2">
         {selectedRoute && (
           <button
             onClick={() => setSelectedRoute(null)}
@@ -1065,8 +1087,9 @@ const MapInner = ({ systemPopServed, routes }: MapProps) => {
       </div>
 
       {/* Top Right: Stats & Fullscreen Toggle */}
-      <div className="absolute top-6 right-6 z-10 flex flex-col items-end gap-2">
+      <div className="absolute top-6 right-6 z-20 flex flex-col items-end gap-2">
         <div className="flex gap-2">
+          <MapEffectsToggle />
           <button
             onClick={() => setIs3DEnabled(!is3DEnabled)}
             className={`backdrop-blur-md border p-2 rounded-lg shadow-sm transition-all flex items-center gap-2 text-xs font-bold ${
@@ -1096,18 +1119,10 @@ const MapInner = ({ systemPopServed, routes }: MapProps) => {
             )}
           </button>
         </div>
-
-
-        <div className="bg-white/90 backdrop-blur-md border border-slate-200 p-4 rounded-xl shadow-lg mt-1 text-right min-w-[180px]">
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Total Population Served</p>
-            <p className="text-3xl font-black text-slate-900 tabular-nums">
-              {systemPopServed !== null ? systemPopServed.toLocaleString() : "..."}
-            </p>
-        </div>
       </div>
 
       {/* Clickable Map Legend */}
-      <div className="absolute bottom-6 right-6 z-10 bg-white/90 backdrop-blur-md border border-slate-200 p-4 rounded-xl shadow-lg flex flex-col gap-2 min-w-[140px]">
+      <div className="absolute bottom-6 right-6 z-20 bg-white/90 backdrop-blur-md border border-slate-200 p-4 rounded-xl shadow-lg flex flex-col gap-2 min-w-[140px]">
         {mapFilterMode === 'grade' ? (
           <>
             <div className="flex items-center justify-between gap-4">

@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useDuckDB } from '@/hooks/useDuckDB';
 import { useRouteStore } from '@/store/routeStore';
 import { useReactiveScoring } from '@/hooks/useReactiveScoring';
@@ -34,6 +35,14 @@ export const CommandCentre: React.FC<CommandCentreProps> = ({ onNavigate }) => {
   const is2PillarActive = disabledWeights.includes('resilience') && disabledWeights.includes('monopoly');
 
   const [activeBreakdownTab, setActiveBreakdownTab] = React.useState<'shap' | 'sensitivity'>('shap');
+  const [isAnalyticsCollapsed, setIsAnalyticsCollapsed] = React.useState<boolean>(false);
+
+  const handleToggleAnalytics = () => {
+    setIsAnalyticsCollapsed((prev) => !prev);
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 60);
+  };
   const [systemPopServed, setSystemPopServed] = React.useState<number | null>(null);
   const [baseRoutes, setBaseRoutes] = React.useState<RouteWithDAs[]>([]);
   const [sensitivityData4Pillar, setSensitivityData4Pillar] = React.useState<Record<string, any>>({});
@@ -295,18 +304,31 @@ export const CommandCentre: React.FC<CommandCentreProps> = ({ onNavigate }) => {
       </div>
 
       {/* Main Content — scrollable */}
-      <div className="flex-1 h-full overflow-y-auto custom-scrollbar">
-        {/* Fixed-height top section */}
-        <div className="relative" style={{ height: '65vh', minHeight: '500px' }}>
-
-
+      <div className={`flex-1 h-full custom-scrollbar ${isAnalyticsCollapsed ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+        {/* Top Map Section (expands to 100% height when below-map panels are minimized) */}
+        <div
+          className="relative"
+          style={isAnalyticsCollapsed ? { height: '100%' } : { height: '65vh', minHeight: '500px' }}
+        >
           {/* Map */}
           <div className="w-full h-full">
             <Map systemPopServed={systemPopServed} routes={filteredRoutes} />
           </div>
+
+          <button
+            type="button"
+            onClick={handleToggleAnalytics}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 px-4 py-1 bg-white/95 hover:bg-slate-50 text-slate-600 hover:text-slate-900 border border-b-0 border-slate-200 rounded-t-lg shadow-md transition-colors flex items-center justify-center"
+            title={isAnalyticsCollapsed ? 'Expand Analytics Panels' : 'Minimize Analytics Panels'}
+            aria-label={isAnalyticsCollapsed ? 'Expand Analytics Panels' : 'Minimize Analytics Panels'}
+          >
+            {isAnalyticsCollapsed ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
         </div>
         
-        {/* Analytical Panels Row */}
+        {/* Everything Below Map (Score Breakdown, Quadrant, Matrix, Network Metrics) */}
+        {!isAnalyticsCollapsed && (
+        <>
         <div className="glass-panel grid grid-cols-2 gap-4 p-4 z-10 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] relative" style={{ minHeight: '400px' }}>
           <div className="command-card bg-brand-slate-50/50 flex flex-col p-3 overflow-hidden">
               <div className="flex justify-between items-center mb-1 border-b border-slate-100 pb-1.5">
@@ -371,6 +393,8 @@ export const CommandCentre: React.FC<CommandCentreProps> = ({ onNavigate }) => {
             <NetworkDistribution data={muniRoutes} />
           </div>
         </div>
+        </>
+        )}
       </div>
       <SpotlightSearch routes={muniRoutes} />
     </div>

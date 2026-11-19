@@ -909,57 +909,57 @@ export const ScrollytellingTwoPillar = ({ onBack, onJumpIn, onToggleVersion }: S
                           <tbody className="divide-y divide-slate-100 text-slate-700">
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Emergency and Hospital Care</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">hospital / emergency_room</td>
-                              <td className="px-4 py-2.5 text-right font-mono">35 <span className="text-[10px] text-slate-400 font-semibold">(23 Hosp + 12 ER)</span></td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">hospital / emergency_room</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">35 <span className="text-[10px] text-slate-400 font-semibold">(23 Hosp + 12 ER)</span></td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">5.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Critical trauma and emergency medical services</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Employment Centres</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">employment</td>
-                              <td className="px-4 py-2.5 text-right font-mono">29,894</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">employment</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">29,894</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">3.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Primary workplaces and industrial/commercial hubs</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Post-Secondary Campuses</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">post_secondary</td>
-                              <td className="px-4 py-2.5 text-right font-mono">5</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">post_secondary</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">5</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">3.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Major universities and technical colleges</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Primary Care</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">primary_care</td>
-                              <td className="px-4 py-2.5 text-right font-mono">127</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">primary_care</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">127</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">3.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Family doctors and non-specialty health clinics</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Grocery Stores & Supermarkets</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">grocery</td>
-                              <td className="px-4 py-2.5 text-right font-mono">62</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">grocery</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">62</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-600">2.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Grocery stores that have fresh produce</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">K-12 Schools</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">school</td>
-                              <td className="px-4 py-2.5 text-right font-mono">460</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">school</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">460</td>
                               <td className="px-4 py-2.5 text-right font-bold text-slate-550">1.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Public and separate primary/secondary schools</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Municipal Rec Centres</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">recreation</td>
-                              <td className="px-4 py-2.5 text-right font-mono">47</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">recreation</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">47</td>
                               <td className="px-4 py-2.5 text-right font-bold text-slate-550">1.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Public pools, arenas, and community spaces</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Edmonton Public Libraries</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">library</td>
-                              <td className="px-4 py-2.5 text-right font-mono">31</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">library</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">31</td>
                               <td className="px-4 py-2.5 text-right font-bold text-slate-550">1.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Public study rooms and community internet nodes</td>
                             </tr>
@@ -1108,7 +1108,7 @@ export const ScrollytellingTwoPillar = ({ onBack, onJumpIn, onToggleVersion }: S
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-xs font-bold text-slate-700">
                     <span>Transit Vulnerability</span>
-                    <span className="font-mono text-teal-600">{weights.vulnerability}%</span>
+                    <span className="font-manrope tabular-nums text-teal-600">{weights.vulnerability}%</span>
                   </div>
                   <input 
                     type="range" min="0" max="100" 
@@ -1124,7 +1124,7 @@ export const ScrollytellingTwoPillar = ({ onBack, onJumpIn, onToggleVersion }: S
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-xs font-bold text-slate-700">
                     <span>Destination Opportunity</span>
-                    <span className="font-mono text-teal-600">{weights.opportunity}%</span>
+                    <span className="font-manrope tabular-nums text-teal-600">{weights.opportunity}%</span>
                   </div>
                   <input 
                     type="range" min="0" max="100" 
@@ -1430,7 +1430,7 @@ export const ScrollytellingTwoPillar = ({ onBack, onJumpIn, onToggleVersion }: S
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <div className="flex-1 flex items-center justify-center text-xs text-slate-400 font-mono">
+                <div className="flex-1 flex items-center justify-center text-xs text-slate-400 font-manrope tabular-nums">
                   Loading Sensitivity Scatter dataset...
                 </div>
               )}
@@ -1530,7 +1530,7 @@ export const ScrollytellingTwoPillar = ({ onBack, onJumpIn, onToggleVersion }: S
                         <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">🗓️ Scheduled GTFS</span>
                         <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider">Perfect Interval</span>
                       </div>
-                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-mono text-[10px] md:text-xs text-emerald-700 font-bold shadow-inner">
+                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-manrope tabular-nums text-[10px] md:text-xs text-emerald-700 font-bold shadow-inner">
                         <span>0:00 (On Time)</span>
                         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
                         <span>0:15 (On Time)</span>
@@ -1545,7 +1545,7 @@ export const ScrollytellingTwoPillar = ({ onBack, onJumpIn, onToggleVersion }: S
                         <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">⚠️ Real-World Tracking</span>
                         <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider text-rose-605">Timeline Drift</span>
                       </div>
-                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-mono text-[10px] md:text-xs shadow-inner">
+                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-manrope tabular-nums text-[10px] md:text-xs shadow-inner">
                         <span className="text-amber-600 font-bold">0:08 (Late)</span>
                         <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-ping" />
                         <span className="text-rose-600 font-black">0:30 (Cancelled)</span>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { RouteWaterfall } from './RouteWaterfall';
-import { BorderGlow } from './BorderGlow';
 import { GlobalNavMenu, PageView } from './widgets/GlobalNavMenu';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, ArrowRight } from 'lucide-react';
 
 interface LandingPageProps {
   onTellMeHow?: () => void;
@@ -24,7 +23,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onTellMeHow, onJumpIn,
   };
 
   return (
-    <main className="min-h-screen w-full flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-12 md:py-24 relative overflow-hidden bg-slate-50 font-sans">
+    <main className="min-h-screen w-full flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-12 md:py-20 relative overflow-hidden bg-slate-50 font-sans">
       {/* Standardized Global Navigation Menu */}
       <GlobalNavMenu
         isOpen={isNavMenuOpen}
@@ -37,123 +36,78 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onTellMeHow, onJumpIn,
       <div className="absolute top-6 left-6 z-40">
         <button
           onClick={() => setIsNavMenuOpen(!isNavMenuOpen)}
-          className="px-3.5 py-2 text-xs font-bold text-[#1e3a8a] bg-white/90 hover:bg-white backdrop-blur-md rounded-xl border border-slate-200/80 transition-all uppercase tracking-wider shadow-md flex items-center gap-2"
+          className="px-3.5 py-2 text-xs font-bold text-slate-800 bg-white/90 hover:bg-white backdrop-blur-md rounded-xl border border-[#E2E8F0] transition-all shadow-sm flex items-center gap-2"
         >
           <Menu className="w-4 h-4" />
-          <span>MENU</span>
+          <span>Menu</span>
           <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isNavMenuOpen ? 'rotate-180' : ''}`} />
         </button>
       </div>
+
       {/* Route Waterfall Animated Background */}
       <div aria-hidden="true" className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <RouteWaterfall opacity={0.35} />
+        <RouteWaterfall opacity={0.42} />
       </div>
 
-      {/* Main Center Title Card wrapped in BorderGlow */}
-      <BorderGlow
-        animated
-        edgeSensitivity={40}
-        glowRadius={40}
-        glowIntensity={0.8}
-        coneSpread={22}
-        borderRadius={56} // Matches desktop md:rounded-[3.5rem] (56px)
-        backgroundColor="#2563eb" // Original bg-blue-600 color
-        glowColor="220 70 50" // Slate blue/indigo HSL glow
-        colors={['#1e40af', '#3b82f6', '#1d4ed8', '#1e3a8a']} // Deep blues and indigos monochromatic theme
-        className="relative z-10 w-full max-w-5xl mx-auto rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl transition-all duration-300"
-      >
-        <div className="w-full p-8 md:p-16 lg:p-20 flex flex-col items-center justify-center text-center relative">
-          {/* Glow Spheres */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-900 opacity-20 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col items-center w-full gap-8">
-            <header className="flex flex-col gap-3 w-full justify-center">
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none text-center w-full pb-2 text-white title-lift-effect cursor-default">
-                ETS Transit Equity<br />Scorecard
+      {/* Frosted Porcelain Wayfinding Card */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto bg-white/85 backdrop-blur-md border border-[#E2E8F0] rounded-xl shadow-[0_20px_50px_-20px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.95)] transition-all duration-300">
+        <div className="w-full px-7 py-10 sm:px-12 sm:py-14 md:px-16 md:py-16 flex flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center w-full gap-8">
+            <header className="flex flex-col gap-2 w-full justify-center">
+              <h1
+                className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.08] text-center w-full pb-1 select-none"
+                style={{
+                  color: 'rgba(15, 23, 42, 0.76)',
+                  textShadow:
+                    '0 2px 0 rgba(255, 255, 255, 0.96), 0 -1px 2px rgba(15, 23, 42, 0.28)',
+                }}
+              >
+                <span className="whitespace-nowrap">ETS Transit Equity</span>
+                <br />
+                Scorecard
               </h1>
             </header>
 
             {/* Two-Column Themed Action Area */}
-            <div className="w-full max-w-4xl mt-4 flex flex-col gap-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                {/* Column 1: Route Equity (Dark Navy Theme) */}
+            <div className="w-full max-w-3xl mt-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-7 items-start">
+                {/* Column 1: Route Equity (Deep Navy #1E3A8A) */}
                 <div className="flex flex-col items-center w-full">
                   <button
                     onClick={() => handleGo('dashboard')}
-                    className="w-full py-4 px-6 rounded-2xl bg-[#141E3C] hover:bg-[#0f172e] text-white font-extrabold text-base sm:text-lg shadow-xl transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-white/30 active:scale-[0.98] text-center"
+                    className="w-full py-4 px-6 rounded-xl bg-[#1E3A8A] hover:bg-[#172e6e] text-white font-bold text-base sm:text-lg shadow-sm hover:shadow-md transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-[#1E3A8A]/25 active:scale-[0.99] text-center"
                   >
                     Route Equity Dashboard
                   </button>
-                  {/* Secondary Plain Text Link */}
                   <button
                     onClick={() => handleGo('scrollytelling')}
-                    className="mt-3.5 sm:mt-4 text-sm sm:text-base font-medium text-white/90 hover:text-white transition-opacity duration-150 focus:outline-none focus:ring-2 focus:ring-white/40 rounded-md py-1 px-2 text-center"
+                    className="mt-3 text-sm font-semibold text-[#1E3A8A] hover:text-[#172e6e] hover:underline underline-offset-4 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#1E3A8A]/30 rounded-md py-1 px-2 inline-flex items-center gap-1.5 group"
                   >
-                    Explain the Route Equity Dashboard
+                    <span>Explain the Route Equity Scorecard</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
                   </button>
                 </div>
 
-                {/* Column 2: Bus Stop Equity (Rich Forest Green Theme) */}
+                {/* Column 2: Bus Stop Equity (Deep Emerald #047857) */}
                 <div className="flex flex-col items-center w-full">
                   <button
                     onClick={() => handleGo('bus-stop-analysis')}
-                    className="w-full py-4 px-6 rounded-2xl bg-[#14452F] hover:bg-[#0f3624] text-white font-extrabold text-base sm:text-lg shadow-xl transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-white/30 active:scale-[0.98] text-center"
+                    className="w-full py-4 px-6 rounded-xl bg-[#047857] hover:bg-[#065f46] text-white font-bold text-base sm:text-lg shadow-sm hover:shadow-md transition-all duration-150 focus:outline-none focus:ring-4 focus:ring-[#047857]/25 active:scale-[0.99] text-center"
                   >
                     Bus Stop Equity Dashboard
                   </button>
-                  {/* Secondary Plain Text Link */}
                   <button
                     onClick={() => handleGo('bus-stop-scrollytelling')}
-                    className="mt-3.5 sm:mt-4 text-sm sm:text-base font-medium text-white/90 hover:text-white transition-opacity duration-150 focus:outline-none focus:ring-2 focus:ring-white/40 rounded-md py-1 px-2 text-center"
+                    className="mt-3 text-sm font-semibold text-[#047857] hover:text-[#065f46] hover:underline underline-offset-4 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#047857]/30 rounded-md py-1 px-2 inline-flex items-center gap-1.5 group"
                   >
-                    Explain the Bus Stop Equity Dashboard
+                    <span>Explain the Bus Stop Equity Dashboard</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-0.5" />
                   </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </BorderGlow>
-
-      {/* SVG filter for the ink stamp texture */}
-      <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
-        <filter id="ink-stamp-distress">
-          <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="4" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-        </filter>
-      </svg>
-
-      {/* DRAFT Ink Stamp */}
-      <div
-        aria-hidden="true"
-        className="absolute pointer-events-none select-none z-30"
-        style={{
-          top: '32px',
-          right: '32px',
-          transform: 'rotate(30deg)',
-          filter: 'url(#ink-stamp-distress)',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: '"Courier New", Courier, monospace',
-            fontSize: '2rem',
-            fontWeight: 900,
-            letterSpacing: '0.18em',
-            color: '#e04313', // Red-orange stamp color matching the image
-            border: '4px solid #e04313',
-            borderRadius: '6px',
-            padding: '4px 14px',
-            display: 'inline-block',
-            textTransform: 'uppercase',
-            mixBlendMode: 'multiply',
-            background: 'transparent',
-            lineHeight: 1.1,
-          }}
-        >
-          DRAFT V2.0
-        </span>
       </div>
     </main>
   );

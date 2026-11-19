@@ -6,6 +6,7 @@ import { EDMONTON_CORE_BUS_STOPS, EDMONTON_CORE_CORRIDORS, CoreBusStop } from '@
 interface BusStopWaterfallProps {
   opacity?: number;
   interactive?: boolean;
+  spread?: number;
 }
 
 interface Point {
@@ -33,6 +34,7 @@ const GRADE_COLORS: Record<string, string> = {
 export const BusStopWaterfall: React.FC<BusStopWaterfallProps> = ({
   opacity = 0.85,
   interactive = true,
+  spread = 1,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -87,9 +89,11 @@ export const BusStopWaterfall: React.FC<BusStopWaterfallProps> = ({
     window.addEventListener('resize', resizeCanvas);
 
     const getPixelCoords = (pctX: number, pctY: number, width: number, height: number): Point => {
+      const sx = 50 + (pctX - 50) * spread;
+      const sy = 50 + (pctY - 50) * spread;
       return {
-        x: (pctX / 100) * width,
-        y: (pctY / 100) * height,
+        x: (sx / 100) * width,
+        y: (sy / 100) * height,
       };
     };
 

@@ -270,16 +270,16 @@ export const BusStopAnalysis: React.FC<BusStopAnalysisProps> = ({ onNavigate, in
       />
 
       {/* Header Bar matching main dashboard exact layout */}
-      <header className="relative z-40 h-14 bg-white border-b border-slate-100 px-5 flex items-center justify-between shadow-xs">
+      <header className="relative z-40 h-14 bg-white border-b border-emerald-100 px-5 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-4">
-          <h1 className="text-sm font-black tracking-tight text-slate-900 uppercase">
+          <h1 className="text-sm font-black tracking-tight text-emerald-900 uppercase">
             ETS ROUTE EQUITY SCORECARD
           </h1>
 
-          {/* Menu Button matching Sidebar design exactly */}
+          {/* Menu Button matching Bus Stop emerald palette */}
           <button
             onClick={() => setIsNavMenuOpen(!isNavMenuOpen)}
-            className="px-3 py-1.5 text-[10px] font-bold text-[#1e3a8a] bg-blue-50/80 hover:bg-blue-100/80 rounded-md border border-blue-200/80 transition-all uppercase tracking-wider shadow-xs flex items-center gap-1.5"
+            className="px-3 py-1.5 text-[10px] font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 rounded-md border border-emerald-200 transition-all uppercase tracking-wider shadow-xs flex items-center gap-1.5"
           >
             <Menu className="w-3.5 h-3.5" />
             <span>MENU</span>
@@ -288,8 +288,8 @@ export const BusStopAnalysis: React.FC<BusStopAnalysisProps> = ({ onNavigate, in
         </div>
 
         {/* 4 CIMD Dimension Toggles with Auto-Equal Weighting */}
-        <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 rounded-xl p-1 shadow-2xs">
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-2">
+        <div className="flex items-center gap-1.5 bg-emerald-50/40 border border-emerald-200/70 rounded-xl p-1 shadow-2xs">
+          <span className="text-[10px] font-black text-emerald-800/70 uppercase tracking-wider px-2">
             CIMD Criteria ({currentDimWeightPct}% each):
           </span>
 
@@ -308,8 +308,8 @@ export const BusStopAnalysis: React.FC<BusStopAnalysisProps> = ({ onNavigate, in
                 onClick={() => handleToggleDimension(dim.key)}
                 className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
                   isActive
-                    ? 'bg-[#1e3a8a] text-white shadow-xs'
-                    : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-100'
+                    ? 'bg-emerald-700 text-white shadow-xs hover:bg-emerald-800'
+                    : 'bg-white text-slate-500 border border-slate-200 hover:bg-emerald-50 hover:text-emerald-900'
                 }`}
               >
                 {dim.label}
@@ -323,7 +323,7 @@ export const BusStopAnalysis: React.FC<BusStopAnalysisProps> = ({ onNavigate, in
           {/* Full Directory Page Trigger Button */}
           <button
             onClick={() => onNavigate?.('bus-stop-directory')}
-            className="px-3.5 py-1.5 rounded-xl bg-[#1e3a8a] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs hover:bg-[#152e6f] transition-all"
+            className="px-3.5 py-1.5 rounded-xl bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs hover:bg-emerald-800 transition-all"
           >
             <BookOpen className="w-4 h-4" /> Bus Stop Directory
           </button>
@@ -333,8 +333,8 @@ export const BusStopAnalysis: React.FC<BusStopAnalysisProps> = ({ onNavigate, in
             onClick={() => setIs3dEnabled(!is3dEnabled)}
             className={`px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs ${
               is3dEnabled
-                ? 'bg-blue-50 border-blue-200 text-[#1e3a8a]'
-                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-emerald-50/50 hover:text-emerald-900'
             }`}
             title="Toggle 3D Buildings & Terrain"
           >
@@ -349,7 +349,7 @@ export const BusStopAnalysis: React.FC<BusStopAnalysisProps> = ({ onNavigate, in
         <div className="flex-1 relative h-full w-full">
           {loading ? (
             <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50 text-slate-600 space-y-3">
-              <div className="w-8 h-8 border-2 border-[#1e3a8a] border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-2 border-emerald-700 border-t-transparent rounded-full animate-spin"></div>
               <p className="text-xs font-mono font-medium">Loading 6,700+ GTFS Bus Stops...</p>
             </div>
           ) : (

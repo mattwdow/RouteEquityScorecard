@@ -49,134 +49,132 @@ export const BusStopTicket: React.FC<BusStopTicketProps> = ({
     purple: {
       stripe: 'bg-purple-600',
       badge: 'bg-purple-50 text-purple-800 border-purple-200',
+      tag: 'text-purple-700 bg-purple-50/70 border-purple-200/80',
       title: 'text-purple-950',
       accent: 'text-purple-700',
-      ring: 'border-purple-200',
+      stubBg: 'bg-purple-50/35',
     },
     orange: {
       stripe: 'bg-orange-600',
       badge: 'bg-orange-50 text-orange-800 border-orange-200',
+      tag: 'text-orange-700 bg-orange-50/70 border-orange-200/80',
       title: 'text-orange-950',
       accent: 'text-orange-700',
-      ring: 'border-orange-200',
+      stubBg: 'bg-orange-50/35',
     },
     emerald: {
       stripe: 'bg-emerald-600',
       badge: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+      tag: 'text-emerald-700 bg-emerald-50/70 border-emerald-200/80',
       title: 'text-emerald-950',
       accent: 'text-emerald-700',
-      ring: 'border-emerald-200',
+      stubBg: 'bg-emerald-50/35',
     },
     rose: {
       stripe: 'bg-rose-600',
       badge: 'bg-rose-50 text-rose-800 border-rose-200',
+      tag: 'text-rose-700 bg-rose-50/70 border-rose-200/80',
       title: 'text-rose-950',
       accent: 'text-rose-700',
-      ring: 'border-rose-200',
+      stubBg: 'bg-rose-50/35',
     },
     blue: {
       stripe: 'bg-blue-600',
       badge: 'bg-blue-50 text-blue-800 border-blue-200',
+      tag: 'text-blue-700 bg-blue-50/70 border-blue-200/80',
       title: 'text-blue-950',
       accent: 'text-blue-700',
-      ring: 'border-blue-200',
+      stubBg: 'bg-blue-50/35',
     },
     amber: {
       stripe: 'bg-amber-600',
       badge: 'bg-amber-50 text-amber-800 border-amber-200',
+      tag: 'text-amber-700 bg-amber-50/70 border-amber-200/80',
       title: 'text-amber-950',
       accent: 'text-amber-700',
-      ring: 'border-amber-200',
+      stubBg: 'bg-amber-50/35',
     },
   }[theme];
 
   return (
-    <div className="flex w-full bg-white border border-slate-200 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden">
+    <div className="flex flex-col sm:flex-row w-full bg-white border border-slate-200 rounded-xl shadow-xs hover:shadow-sm transition-shadow duration-200 overflow-hidden">
       {/* Left Die-Cut Ticket Notch Stripe */}
-      <div className={`w-14 flex-shrink-0 ${themeStyles.stripe} flex items-center justify-center relative select-none`}>
-        <span
-          className="font-mono font-black text-white text-xs tracking-widest uppercase"
-          style={{
-            writingMode: 'vertical-rl',
-            transform: 'rotate(180deg)',
-          }}
-        >
+      <div className={`h-9 sm:h-auto sm:w-12 flex-shrink-0 ${themeStyles.stripe} flex items-center justify-center relative select-none`}>
+        <span className="font-mono tabular-nums font-black text-white text-[11px] tracking-widest uppercase sm:[writing-mode:vertical-rl] sm:rotate-180">
           STOP #{stopId}
         </span>
         {/* Die-cut notch */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-6 bg-white rounded-l-full border-y border-l border-slate-100" />
+        <div className="hidden sm:block absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-5 bg-white rounded-l-full border-y border-l border-slate-100" />
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-5 md:p-6 flex flex-col justify-between">
+      {/* Center Ticket Body */}
+      <div className="flex-1 px-5 py-4 flex flex-col justify-between gap-3.5">
         <div>
-          <div className="flex items-center justify-between gap-2 mb-1.5">
-            <div className="flex items-center gap-2">
-              <span className={`px-2 py-0.5 text-xs font-mono font-black rounded border ${themeStyles.badge}`}>
-                Grade {grade}
+          <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+            <h3 className={`text-base font-black ${themeStyles.title} tracking-tight`}>
+              {stopName}
+            </h3>
+            {stabilityClass && (
+              <span
+                className={`px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider rounded border ${themeStyles.tag}`}
+                title={
+                  stabilityMean !== undefined && stabilityStd !== undefined
+                    ? `Mean: ${stabilityMean.toFixed(1)}, Volatility (σ): ${stabilityStd.toFixed(1)}`
+                    : stabilityClass
+                }
+              >
+                {stabilityClass.replace(' Bus Stop', '')}
               </span>
-              {stabilityClass && (
-                <span 
-                  className="px-2 py-0.5 text-[10px] font-mono font-black uppercase rounded text-white tracking-wider"
-                  style={{
-                    backgroundColor:
-                      stabilityClass === 'Essential Equity Bus Stop' ? '#7C3AED' :
-                      stabilityClass === 'High Swing Bus Stop' ? '#EF4444' :
-                      stabilityClass === 'Low Swing Bus Stop' ? '#F59E0B' : '#EA580C'
-                  }}
-                  title={stabilityMean !== undefined && stabilityStd !== undefined ? `Mean: ${stabilityMean.toFixed(1)}, Volatility (σ): ${stabilityStd.toFixed(1)}` : stabilityClass}
-                >
-                  {stabilityClass.replace(' Bus Stop', '')}
-                </span>
-              )}
-              <span className="text-[11px] font-mono tabular-nums font-bold text-slate-500">
-                {formatOrdinal(percentile)} percentile
-              </span>
-            </div>
-            <div className="text-right">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Equity Score</span>
-              <span className={`ml-2 text-base font-mono tabular-nums font-black ${themeStyles.accent}`}>
-                {score.toFixed(1)}
-              </span>
-            </div>
+            )}
           </div>
-
-          <h3 className={`text-lg font-black ${themeStyles.title} tracking-tight`}>
-            {stopName}
-          </h3>
           <p className="text-slate-600 text-xs mt-1 font-medium leading-relaxed">
             {tagline}
           </p>
         </div>
 
-        {/* Dashed Separator & Micro-Metrics Grid */}
-        <div className="mt-4 pt-3 border-t border-dashed border-slate-200">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-700">
-            <div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Routes Served</div>
-              <div className="text-xs font-mono font-black text-slate-900 mt-0.5">
-                {routesServed.join(', ') || 'None'}
-              </div>
-            </div>
-            <div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Daily Trips</div>
-              <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
-                {dailyTrips} trips
-              </div>
-            </div>
-            <div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Peak Frequency</div>
-              <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
-                {peakTripsPerHour.toFixed(1)}/hr
-              </div>
-            </div>
-            <div>
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">400m Buffer DAs</div>
-              <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
-                {daCount} Census DAs
-              </div>
+        {/* Clean 4-Metric Strip with Deduplicated Units & WCAG AA Labels */}
+        <div className="pt-3 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2">
+          <div>
+            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Routes</div>
+            <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
+              {routesServed.join(', ') || 'None'}
             </div>
           </div>
+          <div>
+            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Daily Trips</div>
+            <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
+              {dailyTrips} / day
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Peak Freq.</div>
+            <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
+              {peakTripsPerHour.toFixed(1)} / hr
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">400m Buffer</div>
+            <div className="text-xs font-mono tabular-nums font-black text-slate-900 mt-0.5">
+              {daCount} DAs
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Perforated Score Stub */}
+      <div
+        className={`sm:w-36 flex-shrink-0 border-t sm:border-t-0 sm:border-l border-dashed border-slate-200 ${themeStyles.stubBg} px-4 py-3.5 sm:py-4 flex sm:flex-col items-center justify-between sm:justify-center text-center gap-1.5`}
+      >
+        <span className={`px-2 py-0.5 text-[11px] font-mono font-black rounded border ${themeStyles.badge}`}>
+          Grade {grade}
+        </span>
+        <div className="flex sm:flex-col items-baseline sm:items-center gap-1.5 sm:gap-0">
+          <span className={`text-2xl font-mono tabular-nums font-black leading-none ${themeStyles.accent}`}>
+            {score.toFixed(1)}
+          </span>
+          <span className="text-[10px] font-mono tabular-nums font-bold text-slate-500 mt-0.5">
+            {formatOrdinal(percentile)} %ile
+          </span>
         </div>
       </div>
     </div>

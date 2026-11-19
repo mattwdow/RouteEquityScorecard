@@ -5,6 +5,8 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { BusStopRecord } from '@/components/widgets/BusStopDirectory';
 import { useRouteStore } from '@/store/routeStore';
+import { MapVisualOverlays, MapEffectsToggle } from './MapVisualEffects';
+import { useUIStore } from '@/store/useUIStore';
 
 mapboxgl.accessToken =
   'pk.eyJ1Ijoic2VsZG9tc21pdGgiLCJhIjoiY21wNGoya2o5MDNvbTJ1cHFjcmI4djRudCJ9' +
@@ -79,6 +81,7 @@ export const BusStopMap: React.FC<BusStopMapProps> = ({
   const popupRef = useRef<mapboxgl.Popup | null>(null);
   const isLoadedRef = useRef<boolean>(false);
   const heatmapPalette = useRouteStore((s) => s.heatmapPalette);
+  const dioramaContrast = useUIStore((s) => s.dioramaContrast);
 
   // Selected Route state for interactive highlighting
   const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
@@ -512,50 +515,85 @@ export const BusStopMap: React.FC<BusStopMapProps> = ({
                 stabilityClass === 'Low Swing Bus Stop' ? '#F59E0B' :
                 stabilityClass === 'Always Low Equity Bus Stop' ? '#EA580C' : '#94A3B8';
 
+              const gradeColorMap: Record<string, string> = {
+                A: '#047857',
+                B: '#2563EB',
+                C: '#D97706',
+                D: '#EA580C',
+                E: '#DC2626',
+              };
+              const stopGrade = (mode === 'equal' ? targetStop.equal_grade : targetStop.economic_grade) || 'C';
+              const topStripeColor = targetStop.is_regional
+                ? '#94A3B8'
+                : colorMode === 'stability'
+                ? stabilityColor
+                : (gradeColorMap[stopGrade] || '#047857');
+
+              const formatOrd = (val: number) => {
+                const r = Math.round(val);
+                const j = r % 10;
+                const k = r % 100;
+                if (j === 1 && k !== 11) return `${r}st`;
+                if (j === 2 && k !== 12) return `${r}nd`;
+                if (j === 3 && k !== 13) return `${r}rd`;
+                return `${r}th`;
+              };
+
+              const stackedBarHtml = daList.length > 0
+                ? `<div class="w-full h-1.5 rounded-full overflow-hidden flex bg-slate-100">
+                    ${daList.map((d, i) => `<div style="width: ${Math.max(d.pct, 0)}%; background-color: ${PIE_COLORS[i % PIE_COLORS.length]};"></div>`).join('')}
+                  </div>`
+                : '';
+
               const contentHtml = `
-                <div class="p-3 bg-white/95 backdrop-blur-md border border-slate-200 rounded-xl text-slate-900 shadow-xl space-y-2 text-xs">
-                  <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
-                    <div>
-                      <span class="font-mono text-[11px] text-[#1e3a8a] bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200 font-bold">#${targetStop.stop_id}</span>
-                      <div class="font-bold text-slate-800 text-xs mt-1 truncate max-w-[180px]">${targetStop.stop_name}</div>
+                <div class="w-[268px] bg-white/95 backdrop-blur-md border border-[#E2E8F0] rounded-xl text-slate-900 shadow-lg overflow-hidden text-xs">
+                  <div class="h-[3px] w-full" style="background-color: ${topStripeColor};"></div>
+                  <div class="p-3 space-y-2.5">
+                    <div class="flex items-start justify-between gap-2 pb-2 border-b border-slate-100">
+                      <div class="min-w-0">
+                        <span class="font-mono tabular-nums text-[10px] text-[#047857] bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 font-bold">#${targetStop.stop_id}</span>
+                        <div class="font-bold text-slate-900 text-xs mt-1 truncate">${targetStop.stop_name}</div>
+                      </div>
+                      <div class="text-right shrink-0">
+                        ${targetStop.is_regional ? `
+                          <div class="font-mono font-bold text-[11px] text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">Regional</div>
+                          <div class="text-[9px] uppercase tracking-wider text-slate-500 font-semibold mt-0.5">Outside City</div>
+                        ` : `
+                          <div class="font-mono tabular-nums font-black text-sm text-[#047857] leading-tight">${percentile !== null ? `${formatOrd(percentile)} %ile` : score.toFixed(1)}</div>
+                          <div class="font-mono tabular-nums text-[10px] text-slate-500 font-semibold mt-0.5">Score ${score.toFixed(1)}</div>
+                        `}
+                      </div>
                     </div>
-                    <div class="text-right">
-                      ${targetStop.is_regional ? `
-                        <div class="font-mono font-bold text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Regional</div>
-                        <div class="text-[9px] uppercase tracking-wider text-slate-400 font-semibold mt-0.5">Outside City</div>
-                      ` : `
-                        <div class="font-mono font-bold text-sm text-[#1e3a8a]">${percentile !== null ? `${percentile.toFixed(0)}th percentile` : score.toFixed(1)}</div>
-                        <div class="text-[9px] uppercase tracking-wider text-slate-500 font-semibold">Score: ${score.toFixed(1)}</div>
-                      `}
-                    </div>
-                  </div>
 
-                  ${stabilityInfo ? `
-                    <div class="flex items-center justify-between bg-slate-50 border border-slate-100 rounded-lg px-2 py-1 text-[10px]">
-                      <span class="px-1.5 py-0.5 rounded font-black uppercase text-[9px] text-white" style="background-color: ${stabilityColor}">
-                        ${stabilityClass.replace(' Bus Stop', '')}
-                      </span>
-                      <span class="font-mono text-slate-500 font-semibold">
-                        Mean: <strong class="text-slate-800">${stabilityInfo.score_mean.toFixed(1)}</strong> &bull; &sigma;: <strong class="text-slate-800">${stabilityInfo.score_std.toFixed(1)}</strong>
-                      </span>
-                    </div>
-                  ` : ''}
+                    ${stabilityInfo && !targetStop.is_regional ? `
+                      <div class="flex items-center justify-between text-[11px] text-slate-700">
+                        <span class="flex items-center gap-1.5 font-semibold">
+                          <span class="w-2 h-2 rounded-full shrink-0" style="background-color: ${stabilityColor};"></span>
+                          <span>${stabilityClass.replace(' Bus Stop', '')}</span>
+                        </span>
+                        <span class="font-mono tabular-nums text-[10px] font-semibold text-slate-500">
+                          &sigma; <strong class="text-slate-800">${stabilityInfo.score_std.toFixed(1)}</strong>
+                        </span>
+                      </div>
+                    ` : ''}
 
-                  <div class="space-y-1">
-                    <div class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">400m DA Catchment Overlap</div>
-                    <div class="flex items-center gap-3">
-                      <div class="flex-shrink-0">${pieSvg}</div>
-                      <div class="flex-1 space-y-1 text-[11px]">
+                    <div class="space-y-1.5 pt-0.5">
+                      <div class="flex items-center justify-between text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
+                        <span>400m DA Overlap</span>
+                        <span class="font-mono tabular-nums text-slate-400">${daList.length} DAs</span>
+                      </div>
+                      ${stackedBarHtml}
+                      <div class="space-y-1 text-[11px] pt-0.5">
                         ${daList.slice(0, 3).map((d, i) => `
                           <div class="flex items-center justify-between text-slate-700">
-                            <span class="flex items-center gap-1 font-medium">
-                              <span class="w-2.5 h-2.5 rounded-full inline-block" style="background-color: ${PIE_COLORS[i % PIE_COLORS.length]}"></span>
-                              DA ${d.da_id}
+                            <span class="flex items-center gap-1.5 font-medium">
+                              <span class="w-2 h-2 rounded-full inline-block shrink-0" style="background-color: ${PIE_COLORS[i % PIE_COLORS.length]};"></span>
+                              <span class="font-mono tabular-nums text-[10px]">DA ${d.da_id}</span>
                             </span>
-                            <span class="font-mono font-bold text-slate-900">${d.pct}%</span>
+                            <span class="font-mono tabular-nums font-bold text-slate-900">${Number(d.pct).toFixed(1)}%</span>
                           </div>
                         `).join('')}
-                        ${daList.length > 3 ? `<div class="text-[10px] text-slate-400">+${daList.length - 3} more DAs</div>` : ''}
+                        ${daList.length > 3 ? `<div class="text-[10px] font-mono tabular-nums text-slate-500">+${daList.length - 3} more DAs</div>` : ''}
                       </div>
                     </div>
                   </div>
@@ -924,7 +962,15 @@ export const BusStopMap: React.FC<BusStopMapProps> = ({
 
   return (
     <div className="relative w-full h-full">
-      <div ref={mapContainerRef} className="w-full h-full" />
+      <div
+        ref={mapContainerRef}
+        className="w-full h-full"
+        style={dioramaContrast ? { filter: 'contrast(1.15) saturate(1.22)' } : undefined}
+      />
+      <MapVisualOverlays />
+      <div className="absolute top-4 right-4 z-20">
+        <MapEffectsToggle />
+      </div>
     </div>
   );
 };

@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { Maximize2, Minimize2 } from 'lucide-react';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2VsZG9tc21pdGgiLCJhIjoiY21wNGoya2o5MDNvbTJ1cHFjcmI4djRudCJ9' + '.55Khr0Cuwie_8YBv_QPfsA';
 
@@ -22,6 +21,9 @@ interface BusStopToggleMapProps {
   stopA: BusStopItem;
   stopB: BusStopItem;
   daGeoJson?: any;
+  showBuffer?: boolean;
+  defaultBothSelected?: boolean;
+  heightClass?: string;
 }
 
 function formatOrdinal(val: number): string {
@@ -38,10 +40,14 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
   stopA,
   stopB,
   daGeoJson,
+  showBuffer = true,
+  defaultBothSelected = false,
+  heightClass = 'h-[540px]',
 }) => {
   // Multi-state selection: stores array of active stop IDs ['6586'] or ['6586', '1745']
-  const [selectedStopIds, setSelectedStopIds] = useState<string[]>([stopA.stop_id]);
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [selectedStopIds, setSelectedStopIds] = useState<string[]>(
+    defaultBothSelected ? [stopA.stop_id, stopB.stop_id] : [stopA.stop_id]
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -124,31 +130,33 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
             },
           });
 
-          // 400m radius walking buffer approximation
-          map.addLayer({
-            id: `stop-buffer-${stop.stop_id}`,
-            type: 'circle',
-            source: `stop-source-${stop.stop_id}`,
-            layout: {
-              visibility: selectedStopIds.includes(stop.stop_id) ? 'visible' : 'none',
-            },
-            paint: {
-              'circle-radius': [
-                'interpolate',
-                ['exponential', 2],
-                ['zoom'],
-                11, 14,
-                12, 28,
-                13, 56,
-                14, 112,
-                15, 224,
-              ],
-              'circle-color': circleColor,
-              'circle-opacity': 0.22,
-              'circle-stroke-width': 2,
-              'circle-stroke-color': circleStroke,
-            },
-          });
+          // 400m radius walking buffer approximation (only when showBuffer is enabled)
+          if (showBuffer) {
+            map.addLayer({
+              id: `stop-buffer-${stop.stop_id}`,
+              type: 'circle',
+              source: `stop-source-${stop.stop_id}`,
+              layout: {
+                visibility: selectedStopIds.includes(stop.stop_id) ? 'visible' : 'none',
+              },
+              paint: {
+                'circle-radius': [
+                  'interpolate',
+                  ['exponential', 2],
+                  ['zoom'],
+                  11, 14,
+                  12, 28,
+                  13, 56,
+                  14, 112,
+                  15, 224,
+                ],
+                'circle-color': circleColor,
+                'circle-opacity': 0.22,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': circleStroke,
+              },
+            });
+          }
 
           // Center stop marker
           map.addLayer({
@@ -181,6 +189,18 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
           });
         }
       });
+
+      // Fit bounds to show both stops across Edmonton when defaultBothSelected is true
+      if (defaultBothSelected) {
+        const bounds = new mapboxgl.LngLatBounds();
+        bounds.extend([stopA.lon, stopA.lat]);
+        bounds.extend([stopB.lon, stopB.lat]);
+        map.fitBounds(bounds, {
+          padding: { top: 80, bottom: 55, left: 60, right: 60 },
+          maxZoom: 12.2,
+          duration: 0,
+        });
+      }
     });
 
     mapRef.current = map;
@@ -189,7 +209,7 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
       map.remove();
       mapRef.current = null;
     };
-  }, [stopA, stopB, daGeoJson]);
+  }, [stopA, stopB, daGeoJson, showBuffer, defaultBothSelected]);
 
   // Synchronize layer visibility whenever selectedStopIds updates
   useEffect(() => {
@@ -258,20 +278,10 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
     }
   };
 
-  // Handle Resize on Fullscreen toggle
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      mapRef.current?.resize();
-    }, 200);
-    return () => clearTimeout(timer);
-  }, [isFullscreen]);
-
   return (
     <div
       ref={containerRef}
-      className={`relative w-full bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm transition-all duration-300 ${
-        isFullscreen ? 'fixed inset-4 z-50 rounded-xl shadow-2xl' : 'h-[540px]'
-      }`}
+      className={`relative w-full bg-slate-100 border border-slate-200 rounded-xl overflow-hidden shadow-sm transition-all duration-300 ${heightClass}`}
     >
       {/* Interactive Stop Switcher Controls (Header Bar) */}
       <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between gap-2.5 pointer-events-none">
@@ -333,17 +343,6 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
             </div>
           </button>
         </div>
-
-        {/* Right utility control: Fullscreen Button only */}
-        <div className="pointer-events-auto">
-          <button
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2 bg-white/95 backdrop-blur-md hover:bg-slate-50 text-slate-700 rounded-xl border border-slate-200 shadow-sm transition-all"
-            title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-          >
-            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-          </button>
-        </div>
       </div>
 
       {/* Mapbox Viewport */}
@@ -359,29 +358,35 @@ export const BusStopToggleMap: React.FC<BusStopToggleMapProps> = ({
                 <span className="w-3.5 h-3.5 rounded-full border-2 border-orange-600 bg-orange-500/20" />
               </div>
               <span className="font-semibold text-[11px]">
-                400m Walking Buffers (Both Stops Active)
+                {showBuffer ? '400m Walking Buffers (Both Stops Active)' : 'Both Case Study Stops (Edmonton Context)'}
               </span>
             </>
           ) : isStopAActive ? (
             <>
               <span className="w-3.5 h-3.5 rounded-full border-2 border-purple-600 bg-purple-500/20" />
               <span className="font-semibold text-[11px]">
-                400m Walking Buffer (Stop #{stopA.stop_id} &bull; High Need)
+                {showBuffer
+                  ? `400m Walking Buffer (Stop #${stopA.stop_id} • High Need)`
+                  : `Stop #${stopA.stop_id} • High Need`}
               </span>
             </>
           ) : (
             <>
               <span className="w-3.5 h-3.5 rounded-full border-2 border-orange-600 bg-orange-500/20" />
               <span className="font-semibold text-[11px]">
-                400m Walking Buffer (Stop #{stopB.stop_id} &bull; Low Need)
+                {showBuffer
+                  ? `400m Walking Buffer (Stop #${stopB.stop_id} • Low Need)`
+                  : `Stop #${stopB.stop_id} • Low Need`}
               </span>
             </>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3.5 h-0.5 border-t border-dashed border-slate-500" />
-          <span className="font-semibold text-[11px]">Census Dissemination Boundaries</span>
-        </div>
+        {showBuffer && (
+          <div className="flex items-center gap-2">
+            <span className="w-3.5 h-0.5 border-t border-dashed border-slate-500" />
+            <span className="font-semibold text-[11px]">Census Dissemination Boundaries</span>
+          </div>
+        )}
       </div>
     </div>
   );

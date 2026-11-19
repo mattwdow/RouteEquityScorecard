@@ -88,10 +88,7 @@ export const BusStopGradeDistribution: React.FC = () => {
     <div className="bg-white border border-slate-200 rounded-xl p-6 md:p-8 shadow-sm">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-5">
         <div>
-          <span className="text-xs font-black uppercase tracking-widest text-[#1e3a8a]">
-            QUINTILE METHODOLOGY & POLICY IMPACT
-          </span>
-          <h3 className="text-xl md:text-2xl font-black text-slate-900 mt-1">
+          <h3 className="text-xl md:text-2xl font-black text-slate-900">
             Understanding Bus Stop Grades (Grade A through E)
           </h3>
           <p className="text-xs md:text-sm text-slate-600 mt-1">
@@ -150,8 +147,8 @@ export const BusStopGradeDistribution: React.FC = () => {
             </div>
 
             <div className="mt-4 pt-3 border-t border-slate-200/60">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                Archetypal Stop Example:
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                Example:
               </span>
               <div className="text-xs font-bold text-slate-900 mt-0.5">
                 {activeQuintile.grade === 'A' ? 'Stop #6586 (121 St & 145 Ave)' : activeQuintile.grade === 'E' ? 'Stop #1745 (130 St & 107 Ave)' : 'Representative Corridor Stop'}

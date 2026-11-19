@@ -750,33 +750,33 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                               </thead>
                               <tbody className="divide-y divide-slate-200 font-semibold text-slate-650 text-xs">
                                 <tr>
-                                  <td className="px-4 py-3 font-mono">002 — WEM - Stadium - Clareview</td>
-                                  <td className="px-4 py-3 text-right font-mono text-emerald-600 font-bold">99.33</td>
-                                  <td className="px-4 py-3 text-right font-mono text-slate-600">0.69</td>
+                                  <td className="px-4 py-3 font-manrope tabular-nums">002 — WEM - Stadium - Clareview</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-emerald-600 font-bold">99.33</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-slate-600">0.69</td>
                                   <td className="px-4 py-3"><span className="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Bedrock Essential (Always High Equity)</span></td>
                                 </tr>
                                 <tr>
-                                  <td className="px-4 py-3 font-mono">008 — Abbottsfield - Downtown - University</td>
-                                  <td className="px-4 py-3 text-right font-mono text-emerald-600 font-bold">99.34</td>
-                                  <td className="px-4 py-3 text-right font-mono text-slate-600">0.57</td>
+                                  <td className="px-4 py-3 font-manrope tabular-nums">008 — Abbottsfield - Downtown - University</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-emerald-600 font-bold">99.34</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-slate-600">0.57</td>
                                   <td className="px-4 py-3"><span className="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Bedrock Essential (Always High Equity)</span></td>
                                 </tr>
                                 <tr>
-                                  <td className="px-4 py-3 font-mono">003 — Westmount - Stadium</td>
-                                  <td className="px-4 py-3 text-right font-mono text-amber-600 font-bold">64.80</td>
-                                  <td className="px-4 py-3 text-right font-mono text-amber-600">20.71</td>
+                                  <td className="px-4 py-3 font-manrope tabular-nums">003 — Westmount - Stadium</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-amber-600 font-bold">64.80</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-amber-600">20.71</td>
                                   <td className="px-4 py-3"><span className="text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Policy Swing Corridor (Weight Sensitive)</span></td>
                                 </tr>
                                 <tr>
-                                  <td className="px-4 py-3 font-mono">006 — Davies - Southgate</td>
-                                  <td className="px-4 py-3 text-right font-mono text-amber-600 font-bold">57.01</td>
-                                  <td className="px-4 py-3 text-right font-mono text-rose-600">26.13</td>
+                                  <td className="px-4 py-3 font-manrope tabular-nums">006 — Davies - Southgate</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-amber-600 font-bold">57.01</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-rose-600">26.13</td>
                                   <td className="px-4 py-3"><span className="text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Policy Swing Corridor (Weight Sensitive)</span></td>
                                 </tr>
                                 <tr>
-                                  <td className="px-4 py-3 font-mono">031 — Leger - University</td>
-                                  <td className="px-4 py-3 text-right font-mono text-slate-600 font-bold">12.66</td>
-                                  <td className="px-4 py-3 text-right font-mono text-slate-600">8.28</td>
+                                  <td className="px-4 py-3 font-manrope tabular-nums">031 — Leger - University</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-slate-600 font-bold">12.66</td>
+                                  <td className="px-4 py-3 text-right font-manrope tabular-nums text-slate-600">8.28</td>
                                   <td className="px-4 py-3"><span className="text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Policy Swing Corridor (Low Priority Node)</span></td>
                                 </tr>
                               </tbody>
@@ -919,57 +919,57 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                           <tbody className="divide-y divide-slate-100 text-slate-700">
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Emergency and Hospital Care</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">hospital / emergency_room</td>
-                              <td className="px-4 py-2.5 text-right font-mono">35 <span className="text-[10px] text-slate-400 font-semibold">(23 Hosp + 12 ER)</span></td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">hospital / emergency_room</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">35 <span className="text-[10px] text-slate-400 font-semibold">(23 Hosp + 12 ER)</span></td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">5.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Critical trauma and emergency medical services</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Employment Centres</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">employment</td>
-                              <td className="px-4 py-2.5 text-right font-mono">29,894</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">employment</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">29,894</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">3.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Primary workplaces and industrial/commercial hubs</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Post-Secondary Campuses</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">post_secondary</td>
-                              <td className="px-4 py-2.5 text-right font-mono">5</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">post_secondary</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">5</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">3.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Major universities and technical colleges</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Primary Care</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">primary_care</td>
-                              <td className="px-4 py-2.5 text-right font-mono">127</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">primary_care</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">127</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-650">3.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Family doctors and non-specialty health clinics</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Grocery Stores & Supermarkets</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">grocery</td>
-                              <td className="px-4 py-2.5 text-right font-mono">62</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">grocery</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">62</td>
                               <td className="px-4 py-2.5 text-right font-bold text-teal-600">2.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Grocery stores that have fresh produce</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">K-12 Schools</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">school</td>
-                              <td className="px-4 py-2.5 text-right font-mono">460</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">school</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">460</td>
                               <td className="px-4 py-2.5 text-right font-bold text-slate-550">1.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Public and separate primary/secondary schools</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Municipal Rec Centres</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">recreation</td>
-                              <td className="px-4 py-2.5 text-right font-mono">47</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">recreation</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">47</td>
                               <td className="px-4 py-2.5 text-right font-bold text-slate-550">1.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Public pools, arenas, and community spaces</td>
                             </tr>
                             <tr>
                               <td className="px-4 py-2.5 font-bold text-slate-900">Edmonton Public Libraries</td>
-                              <td className="px-4 py-2.5 font-mono text-slate-500">library</td>
-                              <td className="px-4 py-2.5 text-right font-mono">31</td>
+                              <td className="px-4 py-2.5 font-manrope tabular-nums text-slate-500">library</td>
+                              <td className="px-4 py-2.5 text-right font-manrope tabular-nums">31</td>
                               <td className="px-4 py-2.5 text-right font-bold text-slate-550">1.0</td>
                               <td className="px-4 py-2.5 pl-6 text-slate-500">Public study rooms and community internet nodes</td>
                             </tr>
@@ -1346,7 +1346,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                           <p className="text-xs text-slate-500 leading-relaxed">
                             The current model checks if an alternative is physically present. A future update will weight alternative routes by their frequency and seat capacity to prevent minor, low-frequency routes from falsely lowering a monopoly score.
                           </p>
-                          <div className="p-3 bg-white border border-slate-200 rounded-xl font-mono text-[11px] text-indigo-950 overflow-x-auto">
+                          <div className="p-3 bg-white border border-slate-200 rounded-xl font-manrope tabular-nums text-[11px] text-indigo-950 overflow-x-auto">
                             FMI = 1 - Sum [ Capacity of Alternative / (Capacity of Route + Capacity of Alternative) ]
                           </div>
                           <p className="text-xs text-slate-655 leading-relaxed">
@@ -1465,7 +1465,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-xs font-bold text-slate-700">
                     <span>Transit Vulnerability</span>
-                    <span className="font-mono text-teal-600">{weights.vulnerability}%</span>
+                    <span className="font-manrope tabular-nums text-teal-600">{weights.vulnerability}%</span>
                   </div>
                   <input 
                     type="range" min="0" max="100" 
@@ -1479,7 +1479,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-xs font-bold text-slate-700">
                     <span>Off Peak Service</span>
-                    <span className="font-mono text-teal-600">{weights.offPeak}%</span>
+                    <span className="font-manrope tabular-nums text-teal-600">{weights.offPeak}%</span>
                   </div>
                   <input 
                     type="range" min="0" max="100" 
@@ -1493,7 +1493,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-xs font-bold text-slate-700">
                     <span>Transit Monopoly</span>
-                    <span className="font-mono text-teal-600">{weights.monopoly}%</span>
+                    <span className="font-manrope tabular-nums text-teal-600">{weights.monopoly}%</span>
                   </div>
                   <input 
                     type="range" min="0" max="100" 
@@ -1507,7 +1507,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-between text-xs font-bold text-slate-700">
                     <span>Destination Opportunity</span>
-                    <span className="font-mono text-teal-600">{weights.opportunity}%</span>
+                    <span className="font-manrope tabular-nums text-teal-600">{weights.opportunity}%</span>
                   </div>
                   <input 
                     type="range" min="0" max="100" 
@@ -1816,7 +1816,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <div className="flex-1 flex items-center justify-center text-xs text-slate-400 font-mono">
+                <div className="flex-1 flex items-center justify-center text-xs text-slate-400 font-manrope tabular-nums">
                   Loading Sensitivity Scatter dataset...
                 </div>
               )}
@@ -1916,7 +1916,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                         <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">🗓️ Scheduled GTFS</span>
                         <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider">Perfect Interval</span>
                       </div>
-                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-mono text-[10px] md:text-xs text-emerald-700 font-bold shadow-inner">
+                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-manrope tabular-nums text-[10px] md:text-xs text-emerald-700 font-bold shadow-inner">
                         <span>0:00 (On Time)</span>
                         <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
                         <span>0:15 (On Time)</span>
@@ -1931,7 +1931,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                         <span className="text-[10px] font-black text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">⚠️ Real-World Tracking</span>
                         <span className="text-[9px] text-slate-450 font-bold uppercase tracking-wider text-rose-605">Timeline Drift</span>
                       </div>
-                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-mono text-[10px] md:text-xs shadow-inner">
+                      <div className="relative w-full h-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between px-6 font-manrope tabular-nums text-[10px] md:text-xs shadow-inner">
                         <span className="text-amber-600 font-bold">0:08 (Late)</span>
                         <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-ping" />
                         <span className="text-rose-600 font-black">0:30 (Cancelled)</span>
@@ -1955,7 +1955,7 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                 </div>
 
                 {/* Limitation 4 */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 border-b border-slate-200 pb-8">
                   <div>
                     <h3 className="text-xl font-bold text-slate-900">IV. Destination Quantity vs. Quality</h3>
                     <p className="text-slate-605 text-sm mt-1 leading-relaxed">
@@ -1964,6 +1964,16 @@ export const Scrollytelling = ({ onBack, onJumpIn, onNavigate, onToggleVersion }
                   </div>
                   
                   <GroceryFlowViz />
+                </div>
+
+                {/* Limitation 5 */}
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-slate-900">V. Census Lag (2021 Snapshot vs. 2026 Reality)</h3>
+                    <p className="text-slate-600 text-sm mt-1 leading-relaxed">
+                      Statistics Canada CIMD scores are anchored to the 2021 Census, collected during pandemic-era conditions. Five years of rapid infill towers, greenfield suburban growth, and recent immigration corridors mean fast-growing Edmonton neighbourhoods have shifted while the live 2026 ETS GTFS schedule remains paired with 2021 demographic boundaries until the next census release.
+                    </p>
+                  </div>
                 </div>
 
               </div>

@@ -78,6 +78,19 @@ function calculateIntensity(
   }
 }
 
+const COMPOSITE_STOPS = ['#E2E8F0', '#FCD34D', '#F59E0B', '#E11D48', '#881337'];
+
+function intensityToColor(t: number, metric: MetricKey): string {
+  const clamped = Math.max(0, Math.min(1, t));
+  if (metric === 'composite') {
+    const idx = Math.min(COMPOSITE_STOPS.length - 1, Math.floor(clamped * COMPOSITE_STOPS.length));
+    return COMPOSITE_STOPS[idx];
+  }
+  const hsl = METRIC_HSL[metric] || { h: 174, s: 76, minL: 20, maxL: 92 };
+  const l = hsl.maxL - clamped * (hsl.maxL - hsl.minL);
+  return `hsl(${hsl.h}, ${hsl.s}%, ${l}%)`;
+}
+
 // Map density to circle radius (2.5-12px)
 function densityToRadius(density: number, maxDensity: number): number {
   if (maxDensity === 0) return 2.5;
@@ -90,6 +103,7 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
   const setActiveMetric = useRouteStore((s) => s.setActiveMetric);
   const selectedRoute = useRouteStore((s) => s.selectedRoute);
   const setSelectedRoute = useRouteStore((s) => s.setSelectedRoute);
+  const [sortMode, setSortMode] = useState<'score' | 'route' | 'length'>('score');
   const [hoveredDa, setHoveredDa] = useState<{ da: DaInfo; routeName: string; x: number; y: number } | null>(null);
 
   // Pre-compute values for scaling
@@ -124,8 +138,12 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
     const variance = count > 0 ? allMetricVals.reduce((sum, v) => sum + Math.pow(v - mean, 2), 0) / count : 0;
     const std = Math.sqrt(variance) || 1.0;
 
-    // Sort by composite score (worst first)
-    const sorted = [...routes].sort((a, b) => a.composite_score - b.composite_score);
+    // Sort routes based on selected sortMode
+    const sorted = [...routes].sort((a, b) => {
+      if (sortMode === 'score') return b.composite_score - a.composite_score;
+      if (sortMode === 'length') return b.da_data.length - a.da_data.length;
+      return a.short_name.localeCompare(b.short_name, undefined, { numeric: true });
+    });
     return { 
       maxPop: mp, 
       maxDensity: mdens, 
@@ -136,7 +154,7 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
       maxDAs: md, 
       sortedRoutes: sorted 
     };
-  }, [routes, activeMetric, daAreaMap]);
+  }, [routes, activeMetric, daAreaMap, sortMode]);
 
   if (!routes.length) {
     return (
@@ -157,12 +175,36 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
 
   return (
     <div className="command-card bg-brand-slate-50/50 p-4">
-      {/* Header + Metric Toggles */}
+      {/* Header + Sort & Metric Toggles */}
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-        <span className="text-[10px] font-bold text-brand-slate-500 uppercase tracking-widest">
-          Equity Dissemination Matrix
-        </span>
-        <div className="flex gap-1">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-[10px] font-bold text-brand-slate-500 uppercase tracking-widest">
+            Equity Dissemination Matrix
+          </span>
+          <div className="inline-flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5 text-[10px] font-bold">
+            {(
+              [
+                { key: 'score', label: 'Equity Score' },
+                { key: 'route', label: 'Route #' },
+                { key: 'length', label: 'Corridor Length' },
+              ] as const
+            ).map((opt) => (
+              <button
+                key={opt.key}
+                type="button"
+                onClick={() => setSortMode(opt.key)}
+                className={`px-2 py-0.5 rounded-md transition-colors ${
+                  sortMode === opt.key
+                    ? 'bg-white text-slate-900 shadow-2xs'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-1 flex-wrap">
           {METRICS.map((m) => (
             <button
               key={m.key}
@@ -172,7 +214,7 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
                   ? 'text-white shadow-sm'
                   : 'text-slate-500 bg-white border-slate-200 hover:border-slate-300'
               }`}
-              style={activeMetric === m.key ? { backgroundColor: m.color, borderColor: m.color } : {}}
+              style={activeMetric === m.key ? { backgroundColor: m.key === 'composite' ? '#881337' : m.color, borderColor: m.key === 'composite' ? '#881337' : m.color } : {}}
             >
               {m.label}
             </button>
@@ -181,31 +223,38 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-4 mb-2 text-[9px] text-slate-400">
+      <div className="flex items-center flex-wrap gap-x-5 gap-y-1.5 mb-2 text-[10px] text-slate-500">
+        <div className="flex items-center gap-1.5">
+          <span>Left dot = Route Grade</span>
+          <span className="inline-flex items-center gap-1 font-mono font-bold text-[9px] text-slate-600">
+            {(['A', 'B', 'C', 'D', 'E'] as const).map((g) => (
+              <span key={g} className="inline-flex items-center gap-0.5">
+                <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: GRADE_COLORS[g] }} />
+                {g}
+              </span>
+            ))}
+          </span>
+        </div>
         <div className="flex items-center gap-1.5">
           <span>Dot size = Population Density (people/km²)</span>
-          <svg width="60" height="26" className="inline-block align-middle">
-            <circle cx="6" cy="13" r="2.5" fill="#94A3B8" opacity="0.5"/>
-            <circle cx="24" cy="13" r="7" fill="#94A3B8" opacity="0.5"/>
-            <circle cx="48" cy="13" r="12" fill="#94A3B8" opacity="0.5"/>
+          <svg width="56" height="22" className="inline-block align-middle">
+            <circle cx="6" cy="11" r="2.5" fill="#94A3B8" opacity="0.6"/>
+            <circle cx="22" cy="11" r="6" fill="#94A3B8" opacity="0.6"/>
+            <circle cx="44" cy="11" r="10" fill="#94A3B8" opacity="0.6"/>
           </svg>
         </div>
         <div className="flex items-center gap-1.5">
-          <span>Color intensity = {METRICS.find(m => m.key === activeMetric)?.label}</span>
+          <span>Colour = {METRICS.find(m => m.key === activeMetric)?.label} (Low to High)</span>
           <svg width="75" height="12" className="inline-block align-middle">
-            {[0.1, 0.325, 0.55, 0.775, 1.0].map((t, i) => {
-              const hsl = METRIC_HSL[activeMetric] || { h: 174, s: 76, minL: 20, maxL: 92 };
-              const l = hsl.maxL - t * (hsl.maxL - hsl.minL);
-              return (
-                <circle
-                  key={i}
-                  cx={6 + i * 14}
-                  cy={6}
-                  r={5}
-                  fill={`hsl(${hsl.h}, ${hsl.s}%, ${l}%)`}
-                />
-              );
-            })}
+            {[0.1, 0.3, 0.5, 0.7, 0.9].map((t, i) => (
+              <circle
+                key={i}
+                cx={6 + i * 14}
+                cy={6}
+                r={5}
+                fill={intensityToColor(t, activeMetric)}
+              />
+            ))}
           </svg>
         </div>
       </div>
@@ -267,9 +316,10 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
                   const val = getMetricValue(da, activeMetric);
                   
                   const intensity = calculateIntensity(val, activeMetric, minMetric, maxMetric, meanMetric, stdMetric);
-                  const hsl = METRIC_HSL[activeMetric] || { h: 174, s: 76, minL: 20, maxL: 92 };
-                  const l = hsl.maxL - intensity * (hsl.maxL - hsl.minL);
-                  const fill = `hsl(${hsl.h}, ${hsl.s}%, ${l}%)`;
+                  const fill = intensityToColor(intensity, activeMetric);
+                  const cleanRouteName = route.name.startsWith(route.short_name)
+                    ? route.name.replace(/\s*[—–-]\s*/, ' · ')
+                    : `${route.short_name} · ${route.name}`;
 
                   return (
                     <circle
@@ -282,10 +332,10 @@ export const EquityMatrix: React.FC<MatrixProps> = ({ routes, daAreaMap }) => {
                       stroke="#FFFFFF"
                       strokeWidth={0.5}
                       cursor="pointer"
-                      onMouseEnter={(e) => {
+                      onMouseEnter={() => {
                         setHoveredDa({
                           da,
-                          routeName: `${route.short_name} — ${route.name}`,
+                          routeName: cleanRouteName,
                           x: cx,
                           y: y,
                         });

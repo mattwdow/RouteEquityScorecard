@@ -16,9 +16,14 @@ import { CatchmentDonutCard } from '@/components/widgets/CatchmentDonutCard';
 import { CimdExplainer } from '@/components/widgets/CimdExplainer';
 import { BusStopGradeDistribution } from '@/components/widgets/BusStopGradeDistribution';
 import { BusStopWaterfall } from '@/components/BusStopWaterfall';
-import { BusStopSupplyDisparity } from '@/components/widgets/BusStopSupplyDisparity';
 import { BusStopMonteCarloSimulation } from '@/components/widgets/BusStopMonteCarloSimulation';
 import { BusStopStabilityScatter } from '@/components/charts/BusStopStabilityScatter';
+import {
+  WalkingSpeedRingsVisual,
+  SplitDaDensityVisual,
+  HomeVsBoardingVisual,
+  EcologicalFallacyVisual,
+} from '@/components/widgets/BusStopAssumptionsVisuals';
 
 const CHAPTERS = [
   { id: 'chapter-1', label: '1. Introduction' },
@@ -27,14 +32,18 @@ const CHAPTERS = [
   { id: 'chapter-4', label: '4. Area Overlap' },
   { id: 'chapter-5', label: '5. Quintile Grades' },
   { id: 'chapter-6', label: '6. Spatial Map' },
-  { id: 'chapter-7', label: '7. Supply vs Need' },
-  { id: 'chapter-8', label: '8. Stability Analysis' },
-  { id: 'chapter-9', label: '9. Spatial Barriers' },
-  { id: 'chapter-10', label: '10. Explore Stops' },
+  { id: 'chapter-7', label: '7. Stability Analysis' },
+  { id: 'chapter-8', label: '8. Limitations' },
+  { id: 'chapter-9', label: '9. Explore Stops' },
 ];
 
 const BusStopToggleMap = dynamic(
   () => import('@/components/widgets/BusStopToggleMap').then((m) => m.BusStopToggleMap),
+  { ssr: false }
+);
+
+const CatchmentBarrierMap = dynamic(
+  () => import('@/components/widgets/CatchmentBarrierMap').then((m) => m.CatchmentBarrierMap),
   { ssr: false }
 );
 
@@ -149,7 +158,7 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
       />
 
       {/* 🚌 Fixed Scrollytelling Header with Subway Map Scroll Progress Tracker */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 h-16 flex items-center justify-between shadow-xs">
+      <header className="sticky top-0 z-50 shrink-0 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 h-16 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => onNavigate('landing')}
@@ -232,14 +241,20 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
       </header>
 
       {/* 🚌 Full-Width Hero Container with Bus Stops Waterfall Background */}
-      <div className="w-full relative overflow-hidden bg-gradient-to-b from-emerald-50/50 via-slate-50/25 to-slate-50 pt-20 pb-20 px-6 flex flex-col items-center justify-center text-center">
+      <div className="w-full shrink-0 relative overflow-hidden bg-gradient-to-b from-emerald-50/50 via-[#fafbfc]/25 to-[#fafbfc] pt-28 pb-36 px-6 flex flex-col items-center justify-center text-center">
         {/* Animated BusStopWaterfall Background spanning the hero */}
         <div aria-hidden="true" className="absolute inset-0 z-0 overflow-hidden pointer-events-auto">
-          <BusStopWaterfall opacity={0.88} />
+          <BusStopWaterfall opacity={0.82} spread={1.25} />
         </div>
 
-        {/* Fade Mask Overlay to make lines fade to white/slate-50 seamlessly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-50/40 to-slate-50 pointer-events-none z-[1]" />
+        {/* Extended Fade Mask Overlay (50% deeper fade into page background) */}
+        <div
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              'linear-gradient(to bottom, transparent 0%, rgba(250, 251, 252, 0.25) 45%, rgba(250, 251, 252, 0.78) 78%, #fafbfc 100%)',
+          }}
+        />
 
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
@@ -251,7 +266,7 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
       </div>
 
       {/* Main Narrative Sections Container */}
-      <main className="max-w-4xl mx-auto px-6 py-10 pb-24 space-y-24">
+      <main className="relative z-10 max-w-4xl mx-auto px-6 -mt-10 pt-6 pb-24 space-y-24">
         {/* ================= SECTION 1: Introduction ================= */}
         <section id="chapter-1" className="space-y-6">
           <div className="space-y-4">
@@ -284,7 +299,7 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
               stabilityClass="Essential Equity Bus Stop"
               stabilityMean={82.1}
               stabilityStd={9.1}
-              tagline="High socio-demographic need in North Edmonton with modest bus service frequency (53 trips per day)."
+              tagline="High socio-demographic need in North Edmonton served by modest local bus frequency."
             />
 
             <BusStopTicket
@@ -301,9 +316,17 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
               stabilityClass="Always Low Equity Bus Stop"
               stabilityMean={43.3}
               stabilityStd={5.9}
-              tagline="Low socio-demographic need along Westmount's 107th Avenue corridor, receiving five times more transit service (264 trips per day)."
+              tagline="Low socio-demographic need along Westmount's 107th Avenue corridor with five times the transit supply."
             />
           </div>
+
+          <BusStopToggleMap
+            stopA={stop6586}
+            stopB={stop1745}
+            showBuffer={false}
+            defaultBothSelected={true}
+            heightClass="h-[320px]"
+          />
         </section>
 
         {/* ================= SECTION 2: The 400m Catchment ================= */}
@@ -354,7 +377,7 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
           {/* Side-by-Side Donut Cards (Recreating user's reference) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <div className="space-y-3">
-              <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-wider">
+              <span className="text-xs font-manrope tabular-nums font-bold text-purple-700 uppercase tracking-wider">
                 High Need Case Study: Stop #6586
               </span>
               <CatchmentDonutCard
@@ -369,7 +392,7 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
             </div>
 
             <div className="space-y-3">
-              <span className="text-xs font-mono font-bold text-orange-700 uppercase tracking-wider">
+              <span className="text-xs font-manrope tabular-nums font-bold text-orange-700 uppercase tracking-wider">
                 Low Need Case Study: Stop #1745
               </span>
               <CatchmentDonutCard
@@ -413,21 +436,11 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
           />
         </section>
 
-        {/* ================= SECTION 7: Supply vs. Need ================= */}
+        {/* ================= SECTION 7: Bus Stop Stability and Volatility ================= */}
         <section id="chapter-7" className="space-y-6">
           <div className="space-y-4">
             <h2 className="text-3xl font-black text-emerald-900 leading-tight">
-              7. Supply vs. Need: Daily Trips Compared Against Demographic Need
-            </h2>
-          </div>
-          <BusStopSupplyDisparity stopA={stop6586} stopB={stop1745} />
-        </section>
-
-        {/* ================= SECTION 8: Bus Stop Stability and Volatility ================= */}
-        <section id="chapter-8" className="space-y-6">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-black text-emerald-900 leading-tight">
-              8. Bus Stop Stability and Volatility: Equity Sensitivity Analysis
+              7. Bus Stop Stability and Volatility: Equity Sensitivity Analysis
             </h2>
             <p className="text-slate-600 text-base leading-relaxed">
               As shown above, when the demographic indicator weighting changes, the grade assigned to some bus stops shifts dramatically while others remain stable. To better understand and model this dynamic, we ran a sensitivity simulation calculating stop scores across all 15 possible indicator toggle combinations. This allows us to understand which stops are important for the purposes of equity, no matter what weighting model we use. Use the simulation below to compare how the stability of Stop #6586 and Stop #2821 differ.
@@ -518,40 +531,113 @@ export const BusStopScrollytelling: React.FC<BusStopScrollytellingProps> = ({ on
           <BusStopStabilityScatter />
         </section>
 
-        {/* ================= SECTION 9: Spatial Constraints ================= */}
-        <section id="chapter-9" className="space-y-6">
-          <div className="space-y-4">
+        {/* ================= SECTION 8: What the Scorecard Misses ================= */}
+        <section id="chapter-8" className="space-y-6">
+          <div className="space-y-3">
             <h2 className="text-3xl font-black text-emerald-900 leading-tight">
-              9. Spatial Constraints: Physical Barriers and Aggregate Geography
+              8. What the Scorecard Misses
             </h2>
+            <p className="text-slate-600 text-base leading-relaxed">
+              No spatial model captures every barrier a Rider faces at the curb. The Bus Stop Equity Scorecard relies on seven structural assumptions:
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm text-slate-700">
-            <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-2">
-              <div className="flex items-center gap-2 font-bold text-slate-900">
-                <AlertTriangle className="w-4 h-4 text-amber-500" />
-                <span>Euclidean Circles vs. Physical Barriers</span>
+
+          <div className="flex flex-col gap-10 mt-6">
+            {/* I. Catchment Buffers vs. Physical Barriers */}
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-10">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  I. Catchment Buffers vs. Physical Barriers
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  A 400-metre Euclidean radius draws a circle as the crow flies. In practice, arterial freeways (such as Yellowhead Trail), rail rights-of-way, ravines, and suburban cul-de-sacs cut off pedestrian routes, shrinking the effective walkshed well below the circle.
+                </p>
               </div>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                A 400m Euclidean radius draws a circle as the crow flies. In practice, arterial freeways (such as Yellowhead Trail), rail rights-of-way, and suburban cul-de-sacs cut off walking routes, making the effective walkshed smaller than the circle.
-              </p>
+              <CatchmentBarrierMap />
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-2">
-              <div className="flex items-center gap-2 font-bold text-slate-900">
-                <AlertTriangle className="w-4 h-4 text-amber-500" />
-                <span>The Ecological Fallacy</span>
+            {/* II. Uniform Walking Speeds */}
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-10">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  II. Uniform Walking Speeds (400m Is Not 5 Minutes for Everyone)
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  The 400-metre standard assumes an able-bodied adult walking at 4.8 km/h on clear pavement. Seniors, children, parents pushing strollers, and Riders using mobility aids cover far less distance in five minutes, especially on icy Edmonton sidewalks.
+                </p>
               </div>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                Census measures report aggregate neighbourhood characteristics. An individual passenger boarding at a given stop may not share every demographic attribute of the surrounding area.
-              </p>
+              <WalkingSpeedRingsVisual />
+            </div>
+
+            {/* III. Uniform Density Inside Census Blocks */}
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-10">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  III. Uniform Density Inside Census Blocks (Area Is Not People)
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  Proportional area overlap assumes residents are spread evenly across every square metre of a Dissemination Area. If a 400-metre circle covers a park or parking lot while all apartment buildings sit on the opposite side of the block, area weighting misstates who actually walks to the stop.
+                </p>
+              </div>
+              <SplitDaDensityVisual />
+            </div>
+
+            {/* IV. Residential Census vs. Actual Boarding Demand */}
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-10">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  IV. Residential Census vs. Actual Boarding Demand
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  CIMD scores measure where people live, not where they board. Stops outside hospitals, shift-work industrial parks, grocery stores, or social service agencies often serve high-need Riders who live in other neighbourhoods, yet score low if the surrounding census block is commercial or affluent.
+                </p>
+              </div>
+              <HomeVsBoardingVisual />
+            </div>
+
+            {/* V. The Ecological Fallacy */}
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-10">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  V. The Ecological Fallacy
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  Evaluating demographic data aggregated at the Dissemination Area level assumes individual Riders match their neighbourhood average. In reality, affluent households live inside vulnerable blocks, and transit-dependent families live inside wealthier neighbourhoods.
+                </p>
+              </div>
+              <EcologicalFallacyVisual />
+            </div>
+
+            {/* VI. Blind to Curbside Infrastructure & Winter Conditions */}
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-10">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  VI. Blind to Curbside Infrastructure and Winter Conditions
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  The scorecard measures neighbourhood need, not physical stop quality. Two stops in the same neighbourhood can receive the exact same Grade A equity score (for example, 82.1), even if one is a heated transit hub and the other is an exposed pole on an unplowed shoulder. Key curbside factors that shape a Rider&apos;s daily safety and comfort remain unmeasured: whether the stop has a heated shelter or a bare pole, a concrete boarding pad, nighttime street lighting, and priority snow clearing.
+                </p>
+              </div>
+            </div>
+
+            {/* VII. Census Lag */}
+            <div className="flex flex-col gap-4">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  VII. Census Lag (2021 Snapshot vs. 2026 Reality)
+                </h3>
+                <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+                  Statistics Canada CIMD scores are anchored to the 2021 Census, collected during pandemic-era conditions. Five years of rapid infill towers, greenfield suburban growth, and recent immigration corridors mean fast-growing Edmonton neighbourhoods have shifted while the live 2026 ETS GTFS schedule remains paired with 2021 demographic boundaries until the next census release.
+                </p>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ================= SECTION 10: Call to Action & Explorer ================= */}
-        <section id="chapter-10" className="pt-8 border-t border-slate-200 text-center space-y-6">
+        {/* ================= SECTION 9: Call to Action & Explorer ================= */}
+        <section id="chapter-9" className="pt-8 border-t border-slate-200 text-center space-y-6">
           <h2 className="text-3xl font-black text-emerald-900 leading-tight">
-            10. Explore Edmonton's 6,755 Bus Stops
+            9. Explore Edmonton's 6,755 Bus Stops
           </h2>
           <p className="text-sm text-slate-600 max-w-xl mx-auto leading-relaxed font-medium">
             Inspect stop grades across all neighbourhoods, test custom CIMD weighting criteria, and search any stop in the city.

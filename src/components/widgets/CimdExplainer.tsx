@@ -7,7 +7,8 @@ import {
   Users, 
   Home, 
   DollarSign, 
-  HeartHandshake 
+  HeartHandshake,
+  ChevronDown
 } from 'lucide-react';
 
 interface CimdExplainerProps {
@@ -16,6 +17,11 @@ interface CimdExplainerProps {
 
 export const CimdExplainer: React.FC<CimdExplainerProps> = () => {
   const [showMathModal, setShowMathModal] = useState<boolean>(false);
+  const [expandedKeys, setExpandedKeys] = useState<Record<string, boolean>>({});
+
+  const toggleExpand = (key: string) => {
+    setExpandedKeys((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const DIMENSIONS = [
     {
@@ -77,7 +83,7 @@ export const CimdExplainer: React.FC<CimdExplainerProps> = () => {
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <p className="text-sm text-slate-600 font-medium max-w-2xl">
-          Statistics Canada normalizes census dissemination areas from 0 to 100 across four distinct dimensions. Each dimension receives equal 25% weight in the baseline scorecard:
+          Statistics Canada normalizes census dissemination areas from 0 to 100 across four distinct dimensions. Each dimension receives equal 25% weight in the baseline scorecard unless other selections are made.
         </p>
 
         <button
@@ -90,14 +96,15 @@ export const CimdExplainer: React.FC<CimdExplainerProps> = () => {
       </div>
 
       {/* 4 Pillars Grid with 3D Hard-Shadow Lift */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
         {DIMENSIONS.map((dim) => {
           const Icon = dim.icon;
+          const isExpanded = !!expandedKeys[dim.key];
 
           return (
             <div
               key={dim.key}
-              className="w-full pillar-card-lift flex flex-col bg-white rounded-2xl border-2 overflow-hidden shadow-xs"
+              className="w-full pillar-card-lift flex flex-col bg-white rounded-2xl border-2 overflow-hidden shadow-xs transition-all duration-200"
               style={{
                 '--pillar-color': dim.color,
               } as React.CSSProperties}
@@ -119,24 +126,37 @@ export const CimdExplainer: React.FC<CimdExplainerProps> = () => {
               </div>
 
               {/* Bottom Segment: White Text Body */}
-              <div className="flex-1 p-5 flex flex-col justify-between bg-white space-y-4">
+              <div className="flex-1 p-5 flex flex-col justify-between bg-white space-y-3.5">
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
                   {dim.description}
                 </p>
 
-                {/* Census Variables */}
-                <div className="space-y-1.5 pt-3 border-t border-slate-100">
-                  <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-                    Key Census Variables:
-                  </div>
-                  <ul className="space-y-1 text-[11px] text-slate-600 font-medium">
-                    {dim.indicators.map((ind, i) => (
-                      <li key={i} className="flex items-start gap-1.5">
-                        <span className="font-bold text-slate-400">&bull;</span>
-                        <span className="leading-tight">{ind}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Collapsible Census Variables Dropdown */}
+                <div className="pt-3 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => toggleExpand(dim.key)}
+                    aria-expanded={isExpanded}
+                    className="w-full flex items-center justify-between text-[10px] uppercase font-bold tracking-wider text-slate-500 hover:text-slate-800 transition-colors"
+                  >
+                    <span>Key Census Variables</span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
+                        isExpanded ? 'rotate-180 text-slate-700' : ''
+                      }`}
+                    />
+                  </button>
+
+                  {isExpanded && (
+                    <ul className="mt-2.5 space-y-1.5 text-[11px] text-slate-600 font-medium animate-in fade-in slide-in-from-top-1 duration-150">
+                      {dim.indicators.map((ind, i) => (
+                        <li key={i} className="flex items-start gap-1.5">
+                          <span className="font-bold text-slate-400">&bull;</span>
+                          <span className="leading-tight">{ind}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>

@@ -43,6 +43,7 @@ const config: Config = {
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
         mono: ["var(--font-roboto-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        manrope: ["Manrope", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
       },
       keyframes: {
         'gradient-x': {

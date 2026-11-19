@@ -99,4 +99,37 @@
   - [x] Task 3: Update `BusStopAnalysis.tsx` state management for color mode, stability class filtering, category count computation, and selected stop stability banner
   - [x] Task 4: Enhance `BusStopTicket.tsx` with optional stability class badge and volatility metrics
   - [x] Task 5: Verify build, test interactions, and document results
+- [ ] Phase 40: Demographic Walkshed Sensitivity & Variable Catchment Analysis:
+  - [ ] Task 1: Conceptualize demographic walking speed profiles based on the "15 Minutes. For Whom?" accessibility framework (Young Adult ~400m-800m standard, Child, Pregnant Woman, Elderly Person, New Arrival / Encumbered Passenger).
+  - [ ] Task 2: Audit existing static 400m Euclidean and network catchment assumptions in `bus_stop_vulnerability.json` and catchment calculations.
+  - [ ] Task 3: Design multi-tier walkshed radius and catchment modeling options (e.g., 200m / 300m / 400m / 600m / 800m or mobility-adjusted speeds: 3.0 km/h vs 4.8 km/h).
+  - [ ] Task 4: Plan interactive UI controls / toggle modes in the Bus Stop Scorecard to let users evaluate stop equity under variable demographic walksheds.
+- [x] Phase 41: Author & Deploy `/spatial-equity-pipeline` Global Skill via `/skill-crafter`:
+  - [x] Task 1: Design standardized `SKILL.md` following `/skill-crafter` schema (YAML frontmatter, Operating Rules, Core Heuristics, Execution Workflow, Verification Standards).
+  - [x] Task 2: Package reusable reference scripts (`references/walkshed_morphology.py` and `references/gtfs_shadow_comparator.py`) into the skill bundle.
+  - [x] Task 3: Execute Double-Deployment to global registry (`C:\Users\matdow\.gemini\config\skills\spatial-equity-pipeline\`) and local workspace (`.agents/skills/spatial-equity-pipeline/`).
+  - [x] Task 4: Verify deployment, test schema compliance, and log in `todo.md`.
+- [x] Phase 42: Author & Deploy `/reactive-policy-engine` Global Skill via `/skill-crafter`:
+  - [x] Task 1: Design standardized `SKILL.md` for `/reactive-policy-engine` (dual-runtime Python/TS parity, zero-sum Hamilton apportionment, SHAP attribution, Stars & Bars Monte Carlo stability, and DuckDB-Wasm CDN Blob loading).
+  - [x] Task 2: Package reusable reference modules (`references/useReactiveScoring.ts`, `references/useZeroSumStore.ts`, `references/monte_carlo_simplex_engine.py`, `references/useDuckDBWasm.ts`).
+  - [x] Task 3: Execute Double-Deployment to global registry (`C:\Users\matdow\.gemini\config\skills\reactive-policy-engine\`) and local workspace (`.agents/skills/reactive-policy-engine/`).
+  - [x] Task 4: Verify Python compilation, schema compliance, and log in `todo.md`.
+- [ ] Phase 43: First and Last Trips Analysis:
+  - [ ] Task 1: Extract first and last trip departure/arrival times per route and direction from the active GTFS feed (`weekday`, `Saturday`, `Sunday` service calendars).
+  - [ ] Task 2: Compute service span duration, early-morning start coverage, and late-night end coverage metrics across all municipal routes.
+  - [ ] Task 3: Cross-reference first/last trip span gaps against high-vulnerability CIMD corridors and equity grades to identify shift-worker and off-hours transit deserts.
+  - [ ] Task 4: Export structured analysis artifacts and plan optional dashboard/directory integration for service span exploration.
+- [ ] Phase 44: Boardings Data Integration:
+  - [ ] Task 1: Audit and ingest ETS ridership/boardings datasets (route-level and/or stop-level, time-of-day, and day-type breakdowns) and reconcile route/stop IDs with the active GTFS feed.
+  - [ ] Task 2: Join boardings metrics with route equity scores (`golden_route_record.json`) and bus stop vulnerability records (`bus_stop_vulnerability.json`).
+  - [ ] Task 3: Analyze ridership vs. equity alignment (high-need/high-boardings corridors, underserved demand, and boardings-per-service-hour disparities).
+  - [ ] Task 4: Surface boardings metrics and filters in the Route Equity Scorecard and Bus Stop Equity Dashboard UI.
+- [ ] Phase 45: Service Standard Policy Viability & Equity Variance Testing:
+  - [x] Task 1: Transcribe and document the proposed Service Productivity, Crowding, and Utilization Thresholds policy in `docs/service_standard_policy_thresholds.md`.
+  - [ ] Task 2: Assess applicability of the three Social Vulnerability productivity tiers (Low / Moderate / High) against Route Equity Scorecard CIMD scores, equity grades, and route operational classes (Frequent, Crosstown, Industrial).
+  - [ ] Task 3: Integrate route-level boardings per hour (Peak / Off-peak, by headway tier: 20, 30, 60 min) from Phase 44 to classify routes as: (a) Meeting Standard, (b) Underperforming (Reduction Candidate), or (c) Protected by Equity-Seeking Variance.
+  - [ ] Task 4: Stress-test policy viability and threshold sensitivity (simulate how many routes and riders are protected vs. flagged for reduction under standard vs. equity-adjusted minimums) and document findings for decision-makers.
+
+
+
 
